@@ -9,8 +9,9 @@ require(['../vendor/domReady!'], function (doc) {
   initScene = function() {
     projector = new THREE.Projector;
 
-    renderer = new THREE.CanvasRenderer();
+    renderer = new THREE.WebGLRenderer({ antialias: true, clearAlpha: 1 });
     renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setClearColor(0x000000, 1);
     document.body.appendChild( renderer.domElement );
 
     stats = new Stats();
@@ -25,11 +26,10 @@ require(['../vendor/domReady!'], function (doc) {
     camera = new THREE.PerspectiveCamera(
       45,
       window.innerWidth / window.innerHeight,
-      0.1,
-      10000
+      1,
+      20000
     );
-    camera.position.z = 100;
-    camera.position.y = 50;
+    camera.position.z = 1000;
     scene.add( camera );
 
     controls = new THREE.FlyControls( camera );
@@ -37,34 +37,33 @@ require(['../vendor/domReady!'], function (doc) {
     controls.rollSpeed = 1;
     controls.dragToLook = true;
 
-    var starMaterial = new THREE.ParticleCanvasMaterial({
-      color: 0xffffff,
-      program: function ( context ) {
-        // we get passed a reference to the canvas context
-        context.beginPath();
-        // and we just have to draw our shape at 0,0 - in this
-        // case an arc from 0 to 2Pi radians or 360º - a full circle!
-        context.arc( 0, 0, 1, 0,  Math.PI * 2, true );
-        context.fill();
-      }
+    var starMaterial = new THREE.ParticleBasicMaterial({
+      map: THREE.ImageUtils.loadTexture('images/disc.png'),
+      size: 3,
+      vertexColors: true,
+      sizeAttenuation: false
     });
 
-    for(var p = 0; p < 5000; p++) {
-      var radius = 2000;
+    var outerStars = new THREE.Geometry;
+
+    for(var p = 0; p < 10000; p++) {
+      var radius = 10000;
       var z = Math.random() * (2 * radius) - radius;
       var phi = Math.random() * Math.PI * 2;
       var theta = Math.asin(z / radius);
 
-      var pX = Math.cos(theta) * Math.cos(phi) * radius,
-        pY = Math.cos(theta) * Math.sin(phi) * radius,
-        pZ = z,
-        particle = new THREE.Particle(starMaterial);
+      var vertex = new THREE.Vector3;
+      vertex.x = Math.cos(theta) * Math.cos(phi) * radius;
+      vertex.y = Math.cos(theta) * Math.sin(phi) * radius;
+      vertex.z = z;
 
-      particle.position.set(pX, pY, pZ);
-      particle.scale.x = particle.scale.y = 1;
-
-      scene.add(particle);
+      outerStars.vertices.push(vertex);
+      var color = new THREE.Color(0xffffff);
+      color.setHSV(1.0, 0.0, Math.random());
+      outerStars.colors.push(color);
     }
+    var starSystem = new THREE.ParticleSystem(outerStars, starMaterial);
+    scene.add(starSystem);
 
     requestAnimationFrame( render );
 
