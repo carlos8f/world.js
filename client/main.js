@@ -22,8 +22,8 @@ require(['../vendor/domReady!'], function (doc) {
     stats.domElement.style.zIndex = 100;
     document.body.appendChild( stats.domElement );
 
-    scene = new Physijs.Scene;
-    scene.setGravity({x: 0, y: 0, z: 0});
+    scene = new Physijs.Scene({ reportsize: 50, fixedTimeStep: 1 / 30 })
+    scene.setGravity(new THREE.Vector3( 0, 0, 0 ));
 
     camera = new THREE.PerspectiveCamera(
       35,
