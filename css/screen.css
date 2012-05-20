@@ -1,0 +1,19 @@
+ html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  background: black;
+}
+#info {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 0.8em;
+}
