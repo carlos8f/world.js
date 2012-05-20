@@ -2,7 +2,6 @@
 
 require(['../vendor/domReady!'], function (doc) {
   Physijs.scripts.worker = 'vendor/physijs_worker.js';
-  Physijs.scripts.ammo = 'ammo.js';
 
   var initScene, render, applyForce, setMousePosition, mouse_position,
     ground_material, box_material,
@@ -11,7 +10,7 @@ require(['../vendor/domReady!'], function (doc) {
   initScene = function() {
     projector = new THREE.Projector;
 
-    renderer = new THREE.WebGLRenderer({ antialias: false });
+    renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.shadowMapEnabled = false;
     // renderer.shadowMapSoft = true;
@@ -24,6 +23,7 @@ require(['../vendor/domReady!'], function (doc) {
     document.body.appendChild( stats.domElement );
 
     scene = new Physijs.Scene;
+    scene.setGravity({x: 0, y: 0, z: 0});
 
     camera = new THREE.PerspectiveCamera(
       35,
@@ -40,17 +40,7 @@ require(['../vendor/domReady!'], function (doc) {
     light.position.set( 20, 40, -15 );
     light.target.position.copy( scene.position );
     light.castShadow = false;
-    /*
-    light.shadowCameraLeft = -60;
-    light.shadowCameraTop = -60;
-    light.shadowCameraRight = 60;
-    light.shadowCameraBottom = 60;
-    light.shadowCameraNear = 20;
-    light.shadowCameraFar = 200;
-    light.shadowBias = -.0001
-    light.shadowMapWidth = light.shadowMapHeight = 2048;
-    light.shadowDarkness = .7;
-    */
+
     scene.add( light );
 
     // Materials
@@ -76,7 +66,7 @@ require(['../vendor/domReady!'], function (doc) {
       ground_material,
       0 // mass
     );
-    ground.receiveShadow = true;
+    ground.receiveShadow = false;
     scene.add( ground );
 
     requestAnimationFrame( render );
