@@ -9,9 +9,14 @@ define(function() {
 });
 
 function Ship(geometry) {
-  var material = new THREE.MeshLambertMaterial({color: 0x444444});
+  this.friction = .8;
+  this.restitution = .3;
+  this.mass = 1;
+  this.color = 0x444444;
 
-  THREE.Mesh.call( this, geometry, material );
+  this.mesh = new Physijs.BoxMesh(geometry, Physijs.createMaterial(
+    new THREE.MeshLambertMaterial({color: this.color}),
+    this.friction,
+    this.restitution
+  ), this.mass);
 };
-
-Ship.prototype = new THREE.Mesh();

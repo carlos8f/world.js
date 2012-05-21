@@ -14,7 +14,7 @@ define(['camera', 'lights', 'stars', 'ship'], function(camera, lights, stars, ge
 
   // Add ship
   getShip(function(ship) {
-    scene.add(ship);
+    scene.add(ship.mesh);
   });
 
   return scene;
