@@ -7,12 +7,11 @@ define(function(require) {
     , clock = require('clock')
     ;
 
-  function render() {
+  return function render() {
     controls.update( clock.getDelta() );
     scene.simulate();
     renderer.render( scene, camera);
     stats.update();
     requestAnimationFrame( render );
   }
-  render();
 });

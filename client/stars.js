@@ -1,6 +1,6 @@
 'use strict';
 
-define(['scene'], function(scene) {
+define(function() {
   var starMaterial = new THREE.ParticleBasicMaterial({
     map: THREE.ImageUtils.loadTexture('images/disc.png'),
     size: 3,
@@ -27,6 +27,5 @@ define(['scene'], function(scene) {
     outerStars.colors.push(color);
   }
   var stars = new THREE.ParticleSystem(outerStars, starMaterial);
-  scene.add(stars);
   return stars;
 });
