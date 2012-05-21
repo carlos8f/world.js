@@ -15,8 +15,8 @@ function ImpulseControls(object, domElement) {
 
   // API
 
-  this.movementSpeed = 100.0;
-  this.rollSpeed = 0.005;
+  this.movementSpeed = 50;
+  this.rollSpeed = 0;
 
   this.dragToLook = false;
   this.autoForward = false;
@@ -159,7 +159,7 @@ function ImpulseControls(object, domElement) {
     var moveMult = delta * this.movementSpeed;
     var rotMult = delta * this.rollSpeed;
 
-    this.object.applyImpulse(this.moveVector.normalize().multiplyScalar( moveMult ).negate(), this.moveVector);
+    this.object.applyImpulse(this.moveVector.normalize().multiplyScalar( moveMult ), this.moveVector);
 
     this.tmpQuaternion.set( this.rotationVector.x * rotMult, this.rotationVector.y * rotMult, this.rotationVector.z * rotMult, 1 ).normalize();
     this.object.quaternion.multiplySelf( this.tmpQuaternion );
