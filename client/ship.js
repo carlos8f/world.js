@@ -1,15 +1,18 @@
 define(function() {
-  var ship;
+  var ship, callbacks = [];
+  var loader = new THREE.JSONLoader();
+  loader.load('models/ship.js', function(geometry) {
+    ship = new Ship(geometry);
+    for (var i in callbacks) {
+      callbacks[i].call(null, ship);
+    }
+  });
   return function getShip(cb) {
-    if (!ship) {
-      var loader = new THREE.JSONLoader();
-      loader.load('models/ship.js', function(geometry) {
-        ship = new Ship(geometry);
-        cb(ship);
-      });
+    if (ship) {
+      cb(ship);
     }
     else {
-      cb(ship);
+      callbacks.push(cb);
     }
   };
 });

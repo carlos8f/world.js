@@ -8,10 +8,10 @@ define(function(require) {
     ;
 
   return function render() {
-    controls.update( clock.getDelta() );
+    controls.update(clock.getDelta());
     scene.simulate();
-    renderer.render( scene, camera);
+    renderer.render(scene, camera);
     stats.update();
-    requestAnimationFrame( render );
+    requestAnimationFrame(render);
   }
 });
