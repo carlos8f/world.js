@@ -1,10 +1,16 @@
 define(function() {
+  var ship;
   return function getShip(cb) {
-    var loader = new THREE.JSONLoader();
-    loader.load('models/ship.js', function(geometry) {
-      var ship = new Ship(geometry);
+    if (!ship) {
+      var loader = new THREE.JSONLoader();
+      loader.load('models/ship.js', function(geometry) {
+        ship = new Ship(geometry);
+        cb(ship);
+      });
+    }
+    else {
       cb(ship);
-    });
+    }
   };
 });
 
